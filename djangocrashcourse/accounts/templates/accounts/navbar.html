@@ -1,5 +1,13 @@
 {% load static %}
 
+<style>
+    .hello-msg {
+        font-size: 18px;
+        color: #ffffff;
+        margin-right: 5px;   
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <img src="{% static 'images/logo.png' %}" width="50" />
     <a class="navbar-brand" href="{% url 'home' %}">JV-Admin</a>
@@ -8,12 +16,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-        <li class="nav-item active">
-            <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'products' %}">Products</a>
-        </li>
+            {% if request.user.is_staff %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products' %}">Products</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account' %}">Settings</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
+    <span class="hello-msg">Hello, {{ request.user }}</span>
+    <span><a class="hello-msg" href="{% url 'logout_customer' %}">Logout</a></span>
 </nav>
